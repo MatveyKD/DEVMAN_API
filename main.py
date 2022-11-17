@@ -46,4 +46,3 @@ while True:
                 text=f'У вас провели работу "{attempt["lesson_title"]}" {attempt["lesson_url"]}\n\n{result}',
                 chat_id=os.getenv("USER_ID")
             )
-    print(response.json())
