@@ -34,12 +34,12 @@ if __name__ == "__main__":
         except requests.exceptions.ConnectionError:
             time.sleep(10)
             continue
-        response_data = response.json()
-        if response_data["status"] == "timeout":
-            timestamp = response_data["timestamp_to_request"]
+        reviews_info = response.json()
+        if reviews_info["status"] == "timeout":
+            timestamp = reviews_info["timestamp_to_request"]
         else:
-            timestamp = response_data["last_attempt_timestamp"]
-            for attempt in response_data["new_attempts"]:
+            timestamp = reviews_info["last_attempt_timestamp"]
+            for attempt in reviews_info["new_attempts"]:
                 if attempt["is_negative"]:
                     result = "К сожалению, в работе нашлись ошибки."
                 else:
