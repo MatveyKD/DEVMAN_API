@@ -28,6 +28,7 @@ if __name__ == "__main__":
                 params=payload,
                 timeout=91
             )
+            response.raise_for_status()
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
