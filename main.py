@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-bot = telegram.Bot(token=os.getenv("BOT_TOKEN"))
+bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
 
 timestamp = None
 
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     while True:
         url = "https://dvmn.org/api/long_polling/"
         headers = {
-            "Authorization": f"Token {os.getenv('API_TOKEN')}"
+            "Authorization": f"Token {os.getenv('DEVMAN_API_TOKEN')}"
         }
         payload = {
             "timestamp": timestamp
@@ -45,5 +45,5 @@ if __name__ == "__main__":
                     result = "Предподавателю все понравилось, можно приступатьк следующему уроку!"
                 bot.send_message(
                     text=f'У вас провели работу "{attempt["lesson_title"]}" {attempt["lesson_url"]}\n\n{result}',
-                    chat_id=os.getenv("USER_ID")
+                    chat_id=os.getenv("TG_USER_ID")
                 )
