@@ -6,13 +6,14 @@ import telegram
 from dotenv import load_dotenv
 
 
-load_dotenv()
-
-bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
-
-timestamp = None
 
 if __name__ == "__main__":
+    load_dotenv()
+
+    bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
+
+    timestamp = None
+    
     while True:
         url = "https://dvmn.org/api/long_polling/"
         headers = {
