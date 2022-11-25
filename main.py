@@ -8,12 +8,30 @@ from dotenv import load_dotenv
 import logging
 
 
+class TelegramLogsHandler(logging.Handler):
+
+    def __init__(self, tg_token, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.bot = telegram.Bot(token=tg_token)
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+
 if __name__ == "__main__":
     load_dotenv()
 
     bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
 
     timestamp = None
+
+    tg_handler = TelegramLogsHandler(os.getenv("TG_SERVICE_BOT_TOKEN"), os.getenv("TG_USER_ID"))
+
+    logger = logging.getLogger("logger")
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(tg_handler)
     
     while True:
         url = "https://dvmn.org/api/long_polling/"
@@ -32,9 +50,10 @@ if __name__ == "__main__":
             )
             response.raise_for_status()
         except requests.exceptions.ReadTimeout as error:
-            logging.warning(f"Timeout error: {error}")
-        except requests.exceptions.ConnectionErro as error:
-            logging.warning(f"Timeout error: {error}")
+            logger.warning(f"Timeout error: {error}")
+            continue
+        except requests.exceptions.ConnectionError as error:
+            logger.warning(f"Connection error: {error}")
             time.sleep(10)
             continue
         reviews_info = response.json()
