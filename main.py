@@ -48,7 +48,7 @@ if __name__ == "__main__":
                 url=url,
                 headers=headers,
                 params=payload,
-                timeout=10
+                timeout=91
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as error:
