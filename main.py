@@ -8,8 +8,7 @@ from dotenv import load_dotenv
 import logging
 
 
-
-bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
+logger = logging.getLogger("logger")
 
 
 
@@ -28,10 +27,10 @@ class TelegramLogsHandler(logging.Handler):
 if __name__ == "__main__":
     load_dotenv()
     timestamp = None
-
+   
+    bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
     tg_handler = TelegramLogsHandler(os.getenv("TG_SERVICE_BOT_TOKEN"), os.getenv("TG_USER_ID"))
 
-    logger = logging.getLogger("logger")
     logger.setLevel(logging.WARNING)
     logger.addHandler(tg_handler)
     
