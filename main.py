@@ -8,16 +8,8 @@ from dotenv import load_dotenv
 import logging
 
 
-load_dotenv()
 
 bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
-timestamp = None
-
-tg_handler = TelegramLogsHandler(os.getenv("TG_SERVICE_BOT_TOKEN"), os.getenv("TG_USER_ID"))
-
-logger = logging.getLogger("logger")
-logger.setLevel(logging.WARNING)
-logger.addHandler(tg_handler)
 
 
 
@@ -33,7 +25,16 @@ class TelegramLogsHandler(logging.Handler):
         self.bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
+    load_dotenv()
+    timestamp = None
+
+    tg_handler = TelegramLogsHandler(os.getenv("TG_SERVICE_BOT_TOKEN"), os.getenv("TG_USER_ID"))
+
+    logger = logging.getLogger("logger")
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(tg_handler)
+    
     logger.info("Bot was started")
     while True:
         url = "https://dvmn.org/api/long_polling/"
@@ -48,7 +49,7 @@ if __name__ == "__main__":
                 url=url,
                 headers=headers,
                 params=payload,
-                timeout=91
+                timeout=10
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as error:
