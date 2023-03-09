@@ -11,7 +11,6 @@ import logging
 logger = logging.getLogger("logger")
 
 
-
 class TelegramLogsHandler(logging.Handler):
 
     def __init__(self, tg_token, chat_id):
@@ -25,15 +24,16 @@ class TelegramLogsHandler(logging.Handler):
 
 
 if __name__ == "__main__":
-    load_dotenv()
     timestamp = None
-   
-    bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
+
+    load_dotenv()
     tg_handler = TelegramLogsHandler(os.getenv("TG_SERVICE_BOT_TOKEN"), os.getenv("TG_USER_ID"))
+
+    bot = telegram.Bot(token=os.getenv("TG_BOT_TOKEN"))
 
     logger.setLevel(logging.WARNING)
     logger.addHandler(tg_handler)
-    
+
     logger.info("Bot was started")
     while True:
         url = "https://dvmn.org/api/long_polling/"
